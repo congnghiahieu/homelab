@@ -21,19 +21,19 @@ case "$arch" in
         ;;
 esac
 
-# # --- kubectl (latest stable unless pinned) ---
-# KUBECTL_VERSION="${KUBECTL_VERSION:-$(curl -fsSL https://dl.k8s.io/release/stable.txt)}"
-# echo "[kubectl] Installing ${KUBECTL_VERSION} for ${bin_arch}"
-# curl -fsSL "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${bin_arch}/kubectl" -o "${tmpdir}/kubectl"
-# curl -fsSL "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${bin_arch}/kubectl.sha256" -o "${tmpdir}/kubectl.sha256"
-# echo "$(cat "${tmpdir}/kubectl.sha256")  ${tmpdir}/kubectl" | sha256sum --check --status
-# sudo install -o root -g root -m 0755 "${tmpdir}/kubectl" /usr/local/bin/kubectl
-# kubectl version --client --output=yaml || true
+# --- kubectl (latest stable unless pinned) ---
+KUBECTL_VERSION="${KUBECTL_VERSION:-$(curl -fsSL https://dl.k8s.io/release/stable.txt)}"
+echo "[kubectl] Installing ${KUBECTL_VERSION} for ${bin_arch}"
+curl -fsSL "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${bin_arch}/kubectl" -o "${tmpdir}/kubectl"
+curl -fsSL "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${bin_arch}/kubectl.sha256" -o "${tmpdir}/kubectl.sha256"
+echo "$(cat "${tmpdir}/kubectl.sha256")  ${tmpdir}/kubectl" | sha256sum --check --status
+sudo install -o root -g root -m 0755 "${tmpdir}/kubectl" /usr/local/bin/kubectl
+kubectl version --client --output=yaml || true
 
-# # --- k3d (latest via official installer) ---
-# echo "[k3d] Installing latest"
-# curl -fsSL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-# k3d version || true
+# --- k3d (latest via official installer) ---
+echo "[k3d] Installing latest"
+curl -fsSL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+k3d version || true
 
 # --- kind (latest unless pinned) ---
 # If KIND_VERSION is set (e.g., v0.23.0), use sigs download URL; else use GitHub 'latest/download'.
